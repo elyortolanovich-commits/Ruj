@@ -316,12 +316,12 @@
             cartItemsList.innerHTML = '';
             cart.forEach(item => {
                 const row = document.createElement('div');
-                row.className = 'py-4 flex items-center justify-between gap-3';
+                row.className = 'py-4 flex items-center justify-between gap-2 overflow-hidden';
                 row.innerHTML = `
                     <div class="flex items-center space-x-3 overflow-hidden">
                         <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded-lg flex-shrink-0 bg-slate-100">
                         <div class="overflow-hidden">
-                            <h4 class="text-sm font-semibold text-slate-800 truncate">${item.name}</h4>
+                            <h4 class="text-sm font-semibold text-slate-800 truncate min-w-0">${item.name}</h4>
                             <span class="text-xs text-slate-500">${item.price}</span>
                         </div>
                     </div>
