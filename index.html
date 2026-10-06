@@ -302,7 +302,8 @@
             }
 
             cartTotalCount.textContent = totalItems + ' szt.';
-cartTotal.textContent = totalPrice + ' zł';
+            const cartTotal = document.getElementById('cartTotal');
+            cartTotal.textContent = totalPrice + ' zł';
             if (cart.length === 0) {
                 cartItemsList.innerHTML = `
                     <div class="text-center py-12 text-slate-400">
