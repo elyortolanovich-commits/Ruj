@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Katalog Produktów - Roj Sp. z o.o.</title>
-    <!-- Tailwind CSS for modern responsive styling -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome for UI icons -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -26,7 +26,8 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <header class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-md sticky top-0 z-50">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
                 <div class="bg-emerald-600 text-white p-2.5 rounded-xl shadow-inner font-bold text-xl flex items-center justify-center w-12 h-12">
@@ -39,16 +40,25 @@
             </div>
             
             <div class="flex items-center space-x-4">
-                <a href="https://wa.me/998917899868" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-sm font-medium flex items-center space-x-2 transition shadow-sm">
+                <!-- WhatsApp direct -->
+                <a href="https://wa.me/48666041259" target="_blank" rel="noopener noreferrer" class="hidden sm:flex bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-sm font-medium items-center space-x-2 transition shadow-sm">
                     <i class="fa-brands fa-whatsapp text-lg"></i>
-                    <span>+998 91 789 98 68</span>
+                    <span>+48 666 041 259</span>
                 </a>
+                <!-- Cart Button -->
+                <button onclick="toggleCart()" class="relative bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-sm font-medium flex items-center space-x-2 transition border border-slate-700 shadow-sm">
+                    <i class="fa-solid fa-cart-shopping text-emerald-400 text-lg"></i>
+                    <span>Koszyk</span>
+                    <span id="cartBadge" class="absolute -top-2 -right-2 bg-emerald-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold shadow hidden">0</span>
+                </button>
             </div>
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
+        <!-- Search & Filter Bar -->
         <div class="mb-8 flex flex-col md:flex-row gap-4 items-center justify-between">
             <div class="relative w-full md:w-96">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
@@ -66,10 +76,12 @@
             </div>
         </div>
 
+        <!-- Product Grid -->
         <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Products will be injected dynamically via JavaScript -->
+            <!-- Products injected dynamically -->
         </div>
 
+        <!-- No Results -->
         <div id="noResults" class="hidden text-center py-16">
             <div class="text-slate-400 text-5xl mb-3"><i class="fa-solid fa-box-open"></i></div>
             <p class="text-slate-600 font-medium">Brak produktów pasujących do wyszukiwania.</p>
@@ -77,6 +89,44 @@
 
     </main>
 
+    <!-- Slide-over Cart Drawer -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                <!-- Cart Header -->
+                <div class="p-6 bg-slate-900 text-white flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-cart-shopping text-emerald-400 text-xl"></i>
+                        <h2 class="text-lg font-bold">Twój Koszyk</h2>
+                    </div>
+                    <button onclick="toggleCart()" class="text-slate-400 hover:text-white p-2 rounded-lg transition">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div id="cartItemsList" class="flex-grow overflow-y-auto p-6 space-y-4 divide-y divide-slate-100">
+                    <!-- Dynamic items -->
+                </div>
+
+                <!-- Cart Footer -->
+                <div class="p-6 bg-slate-50 border-t border-slate-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm font-medium text-slate-600">Razem wybrane pozycje:</span>
+                        <span id="cartTotalCount" class="text-lg font-bold text-slate-900">0 szt.</span>
+                    </div>
+                    <button onclick="checkoutWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3.5 rounded-xl font-semibold flex items-center justify-center space-x-2 shadow-lg transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Zamów przez WhatsApp</span>
+                    </button>
+                    <p class="text-[11px] text-slate-400 text-center mt-3">Kliknięcie przycisku przeniesie Cię do WhatsApp z gotową listą zamówienia.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
         <p>&copy; 2026 Roj Sp. z o.o. Wszystkie prawa zastrzeżone. Katalog zamówień hurtowych.</p>
     </footer>
@@ -84,164 +134,81 @@
     <script>
         const products = [
             // Sosy i Majonezy
-            {
-                name: "Edeka Majonez %50 10kg",
-                category: "sosy",
-                price: "95zł - 105zł",
-                code: "image_6.png",
-                badge: "Hurt 10KG"
-            },
-            {
-                name: "Tarsmak Majonez Wyśmienity %76 10kg",
-                category: "sosy",
-                price: "120zł - 129zł",
-                code: "image_6.png",
-                badge: "Hurt 10KG"
-            },
-            {
-                name: "Kristall Majonez Sałatkowy %50 10kg",
-                category: "sosy",
-                price: "90zł - 95zł",
-                code: "image_6.png",
-                badge: "Hurt 10KG"
-            },
-            {
-                name: "Kristall Ketchup Pomidorowy 10kg",
-                category: "sosy",
-                price: "65zł",
-                code: "image_6.png",
-                badge: "Hurt 10KG"
-            },
-            {
-                name: "Luis Extra Gourmet Ketchup 10kg",
-                category: "sosy",
-                price: "75zł",
-                code: "image_6.png",
-                badge: "Hurt 10KG"
-            },
-            {
-                name: "Tarsmak Ketchup Łagodny Premium 10kg",
-                category: "sosy",
-                price: "75zł",
-                code: "image_6.png",
-                badge: "Hurt 10KG"
-            },
-            {
-                name: "Bona Sos Ostry 10kg",
-                category: "sosy",
-                price: "70zł",
-                code: "image_6.png",
-                badge: "Hurt 10KG"
-            },
-            {
-                name: "Mysia Elite Sambal Oelek Chilipaste 10kg",
-                category: "sosy",
-                price: "100zł",
-                code: "image_6.png",
-                badge: "Hurt 10KG"
-            },
-            {
-                name: "Frytura 10kg",
-                category: "sosy",
-                price: "90zł",
-                code: "image_6.png",
-                badge: "Olej"
-            },
-            {
-                name: "Melissa Sos z Granatupelgeshmack (Nar Aromat Sos)",
-                category: "sosy",
-                price: "Cena katalogowa",
-                code: "b8d52e67-1d19-4efa",
-                badge: "Sos"
-            },
-            {
-                name: "Ostry Sos 481g",
-                category: "sosy",
-                price: "15zł",
-                code: "image_5.png",
-                badge: "Detal"
-            },
-            {
-                name: "Ostry Sos 800gr",
-                category: "sosy",
-                price: "20zł",
-                code: "image_5.png",
-                badge: "Detal"
-            },
-            {
-                name: "Sos Box 50ml-125ml (500 sztuk)",
-                category: "sosy",
-                price: "80zł",
-                code: "image_5.png",
-                badge: "Opakowanie"
-            },
-            {
-                name: "Rekawica",
-                category: "sosy",
-                price: "15zł",
-                code: "image_5.png",
-                badge: "Akcesoria"
-            },
+            { id: 1, name: "Edeka Majonez %50 10kg", category: "sosy", price: "95zł", badge: "Hurt 10KG", image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&auto=format&fit=crop&q=80" },
+            { id: 2, name: "Tarsmak Majonez Wyśmienity %76 10kg", category: "sosy", price: "120zł", badge: "Hurt 10KG", image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&auto=format&fit=crop&q=80" },
+            { id: 3, name: "Kristall Majonez Sałatkowy %50 10kg", category: "sosy", price: "90zł", badge: "Hurt 10KG", image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&auto=format&fit=crop&q=80" },
+            { id: 4, name: "Kristall Ketchup Pomidorowy 10kg", category: "sosy", price: "65zł", badge: "Hurt 10KG", image: "https://images.unsplash.com/photo-1594998893017-36147cffef0d?w=400&auto=format&fit=crop&q=80" },
+            { id: 5, name: "Luis Extra Gourmet Ketchup 10kg", category: "sosy", price: "75zł", badge: "Hurt 10KG", image: "https://images.unsplash.com/photo-1594998893017-36147cffef0d?w=400&auto=format&fit=crop&q=80" },
+            { id: 6, name: "Tarsmak Ketchup Łagodny Premium 10kg", category: "sosy", price: "75zł", badge: "Hurt 10KG", image: "https://images.unsplash.com/photo-1594998893017-36147cffef0d?w=400&auto=format&fit=crop&q=80" },
+            { id: 7, name: "Bona Sos Ostry 10kg", category: "sosy", price: "70zł", badge: "Hurt 10KG", image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400&auto=format&fit=crop&q=80" },
+            { id: 8, name: "Mysia Elite Sambal Oelek Chilipaste 10kg", category: "sosy", price: "100zł", badge: "Hurt 10KG", image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400&auto=format&fit=crop&q=80" },
+            { id: 9, name: "Frytura 10kg", category: "sosy", price: "90zł", badge: "Olej", image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&auto=format&fit=crop&q=80" },
+            { id: 10, name: "Melissa Sos z Granatupelgeshmack", category: "sosy", price: "Cena kat.", badge: "Sos", image: "https://images.unsplash.com/photo-1528751079910-27a9692f7f98?w=400&auto=format&fit=crop&q=80" },
+            { id: 11, name: "Ostry Sos 481g", category: "sosy", price: "15zł", badge: "Detal", image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400&auto=format&fit=crop&q=80" },
+            { id: 12, name: "Ostry Sos 800gr", category: "sosy", price: "20zł", badge: "Detal", image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400&auto=format&fit=crop&q=80" },
+            { id: 13, name: "Sos Box 50ml-125ml (500 sztuk)", category: "sosy", price: "80zł", badge: "Opakowanie", image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&auto=format&fit=crop&q=80" },
+            { id: 14, name: "Rekawica", category: "sosy", price: "15zł", badge: "Akcesoria", image: "https://images.unsplash.com/photo-1584467735811-62848cd71545?w=400&auto=format&fit=crop&q=80" },
 
             // Napoje i Ayran
-            { name: "Pepsi Butelka", category: "napoje", price: "50zł", code: "image_2.png", badge: "Butelka" },
-            { name: "Sprite Butelka", category: "napoje", price: "45zł", code: "image_2.png", badge: "Butelka" },
-            { name: "Coca Cola Butelka", category: "napoje", price: "45zł", code: "image_2.png", badge: "Butelka" },
-            { name: "Mirinda Butelka", category: "napoje", price: "45zł", code: "image_2.png", badge: "Butelka" },
-            { name: "Mirinda Puszka", category: "napoje", price: "55zł", code: "image_2.png", badge: "Puszka" },
-            { name: "Sprite Puszka", category: "napoje", price: "55zł", code: "image_2.png", badge: "Puszka" },
-            { name: "Dimes 330ml (Karışık/Şeftali/Mango)", category: "napoje", price: "65zł", code: "image_2.png", badge: "Sok" },
-            { name: "Pepsi Puszka 330ml", category: "napoje", price: "55zł", code: "image_2.png", badge: "Puszka" },
-            { name: "Coca Cola Puszka 330ml", category: "napoje", price: "55zł", code: "image_2.png", badge: "Puszka" },
-            { name: "Fanta Exotic 330ml", category: "napoje", price: "60zł", code: "image_2.png", badge: "Puszka" },
-            { name: "Fanta Kiwi 330ml", category: "napoje", price: "60zł", code: "image_2.png", badge: "Puszka" },
-            { name: "Cola Vanilla 330ml", category: "napoje", price: "60zł", code: "image_2.png", badge: "Puszka" },
-            { name: "Cola Cherry 330ml", category: "napoje", price: "55zł", code: "image_2.png", badge: "Puszka" },
-            { name: "Fanta Lemon 330ml", category: "napoje", price: "60zł", code: "image_2.png", badge: "Puszka" },
-            { name: "Fanta Orange 330ml", category: "napoje", price: "60zł", code: "image_2.png", badge: "Puszka" },
-            { name: "Fuze Tea 330ml", category: "napoje", price: "60zł", code: "image_2.png", badge: "Puszka" },
-            { name: "Durstloscher 500ml", category: "napoje", price: "45zł", code: "image_2.png", badge: "Tetra" },
-            { name: "Tymbark 250ml", category: "napoje", price: "45zł", code: "image_2.png", badge: "Sok" },
-            { name: "Woda", category: "napoje", price: "25zł", code: "image_2.png", badge: "Woda" },
-            { name: "7 Gun Ayran (Natural 45zł / Mango 50zł / Viśnia 50zł)", category: "napoje", price: "45zł - 50zł", code: "image_2.png", badge: "Ayran" },
+            { id: 15, name: "Pepsi Butelka", category: "napoje", price: "50zł", badge: "Butelka", image: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=400&auto=format&fit=crop&q=80" },
+            { id: 16, name: "Sprite Butelka", category: "napoje", price: "45zł", badge: "Butelka", image: "https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=400&auto=format&fit=crop&q=80" },
+            { id: 17, name: "Coca Cola Butelka", category: "napoje", price: "45zł", badge: "Butelka", image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&auto=format&fit=crop&q=80" },
+            { id: 18, name: "Mirinda Butelka", category: "napoje", price: "45zł", badge: "Butelka", image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&auto=format&fit=crop&q=80" },
+            { id: 19, name: "Mirinda Puszka", category: "napoje", price: "55zł", badge: "Puszka", image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&auto=format&fit=crop&q=80" },
+            { id: 20, name: "Sprite Puszka", category: "napoje", price: "55zł", badge: "Puszka", image: "https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=400&auto=format&fit=crop&q=80" },
+            { id: 21, name: "Dimes 330ml", category: "napoje", price: "65zł", badge: "Sok", image: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=400&auto=format&fit=crop&q=80" },
+            { id: 22, name: "Pepsi Puszka 330ml", category: "napoje", price: "55zł", badge: "Puszka", image: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=400&auto=format&fit=crop&q=80" },
+            { id: 23, name: "Coca Cola Puszka 330ml", category: "napoje", price: "55zł", badge: "Puszka", image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&auto=format&fit=crop&q=80" },
+            { id: 24, name: "Fanta Exotic 330ml", category: "napoje", price: "60zł", badge: "Puszka", image: "https://images.unsplash.com/photo-1624513444983-0597e3e23235?w=400&auto=format&fit=crop&q=80" },
+            { id: 25, name: "Fanta Kiwi 330ml", category: "napoje", price: "60zł", badge: "Puszka", image: "https://images.unsplash.com/photo-1624513444983-0597e3e23235?w=400&auto=format&fit=crop&q=80" },
+            { id: 26, name: "Cola Vanilla 330ml", category: "napoje", price: "60zł", badge: "Puszka", image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&auto=format&fit=crop&q=80" },
+            { id: 27, name: "Cola Cherry 330ml", category: "napoje", price: "55zł", badge: "Puszka", image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&auto=format&fit=crop&q=80" },
+            { id: 28, name: "Fanta Lemon 330ml", category: "napoje", price: "60zł", badge: "Puszka", image: "https://images.unsplash.com/photo-1624513444983-0597e3e23235?w=400&auto=format&fit=crop&q=80" },
+            { id: 29, name: "Fanta Orange 330ml", category: "napoje", price: "60zł", badge: "Puszka", image: "https://images.unsplash.com/photo-1624513444983-0597e3e23235?w=400&auto=format&fit=crop&q=80" },
+            { id: 30, name: "Fuze Tea 330ml", category: "napoje", price: "60zł", badge: "Puszka", image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&auto=format&fit=crop&q=80" },
+            { id: 31, name: "Durstloscher 500ml", category: "napoje", price: "45zł", badge: "Tetra", image: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=400&auto=format&fit=crop&q=80" },
+            { id: 32, name: "Tymbark 250ml", category: "napoje", price: "45zł", badge: "Sok", image: "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=400&auto=format&fit=crop&q=80" },
+            { id: 33, name: "Woda", category: "napoje", price: "25zł", badge: "Woda", image: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&auto=format&fit=crop&q=80" },
+            { id: 34, name: "7 Gun Ayran", category: "napoje", price: "45zł", badge: "Ayran", image: "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=400&auto=format&fit=crop&q=80" },
 
             // Opakowania
-            { name: "Kapsalon 708", category: "opakowania", price: "65zł", code: "image_5.png", badge: "Jednorazowe" },
-            { name: "Folia Aluminiowa", category: "opakowania", price: "90zł", code: "image_5.png", badge: "Gastronomia" },
-            { name: "Doner Box (500ml-1000ml)", category: "opakowania", price: "18zł - 25zł", code: "image_5.png", badge: "Pojemnik" },
-            { name: "Menu Box 2", category: "opakowania", price: "45zł", code: "image_5.png", badge: "Pojemnik" },
-            { name: "Pudełko na Hamburgery (Hb6-Hb10)", category: "opakowania", price: "35zł - 45zł", code: "image_5.png", badge: "Pudełko" },
-            { name: "Czarny Menu Box", category: "opakowania", price: "40zł", code: "image_5.png", badge: "Pojemnik" },
-            { name: "Döner Kebaba Koperta 1500", category: "opakowania", price: "50zł", code: "image_5.png", badge: "Papier" },
-            { name: "Serwetka do Serwowania", category: "opakowania", price: "70zł", code: "image_5.png", badge: "Higiena" },
-            { name: "Widelce Plastikowe (1000 sztuk)", category: "opakowania", price: "100zł", code: "image_5.png", badge: "Sztućce" },
-            { name: "Plastikowa Torba (1000 sztuk)", category: "opakowania", price: "65zł - 85zł", code: "image_5.png", badge: "Torba" },
-            { name: "Jumbo Ręcznik", category: "opakowania", price: "55zł", code: "image_5.png", badge: "Papier" },
-            { name: "Jumbo Ręcznik 120L", category: "opakowania", price: "120zł", code: "image_5.png", badge: "Papier" },
+            { id: 35, name: "Kapsalon 708", category: "opakowania", price: "65zł", badge: "Jednorazowe", image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&auto=format&fit=crop&q=80" },
+            { id: 36, name: "Folia Aluminiowa", category: "opakowania", price: "90zł", badge: "Gastronomia", image: "https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?w=400&auto=format&fit=crop&q=80" },
+            { id: 37, name: "Doner Box (500ml-1000ml)", category: "opakowania", price: "20zł", badge: "Pojemnik", image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&auto=format&fit=crop&q=80" },
+            { id: 38, name: "Menu Box 2", category: "opakowania", price: "45zł", badge: "Pojemnik", image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&auto=format&fit=crop&q=80" },
+            { id: 39, name: "Pudełko na Hamburgery", category: "opakowania", price: "40zł", badge: "Pudełko", image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&auto=format&fit=crop&q=80" },
+            { id: 40, name: "Czarny Menu Box", category: "opakowania", price: "40zł", badge: "Pojemnik", image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&auto=format&fit=crop&q=80" },
+            { id: 41, name: "Döner Kebaba Koperta 1500", category: "opakowania", price: "50zł", badge: "Papier", image: "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=400&auto=format&fit=crop&q=80" },
+            { id: 42, name: "Serwetka do Serwowania", category: "opakowania", price: "70zł", badge: "Higiena", image: "https://images.unsplash.com/photo-1584467735811-62848cd71545?w=400&auto=format&fit=crop&q=80" },
+            { id: 43, name: "Widelce Plastikowe (1000 sztuk)", category: "opakowania", price: "100zł", badge: "Sztućce", image: "https://images.unsplash.com/photo-1584467735811-62848cd71545?w=400&auto=format&fit=crop&q=80" },
+            { id: 44, name: "Plastikowa Torba (1000 sztuk)", category: "opakowania", price: "75zł", badge: "Torba", image: "https://images.unsplash.com/photo-1584467735811-62848cd71545?w=400&auto=format&fit=crop&q=80" },
+            { id: 45, name: "Jumbo Ręcznik", category: "opakowania", price: "55zł", badge: "Papier", image: "https://images.unsplash.com/photo-1584467735811-62848cd71545?w=400&auto=format&fit=crop&q=80" },
+            { id: 46, name: "Jumbo Ręcznik 120L", category: "opakowania", price: "120zł", badge: "Papier", image: "https://images.unsplash.com/photo-1584467735811-62848cd71545?w=400&auto=format&fit=crop&q=80" },
 
             // Przyprawy i Konserwy
-            { name: "Ogórek Kiszony", category: "przyprawy", price: "45zł", code: "image_7.png", badge: "Konserwa" },
-            { name: "Mikado Oliwki", category: "przyprawy", price: "80zł", code: "image_7.png", badge: "Oliwki" },
-            { name: "Oualili i Czarne Bez Pestek", category: "przyprawy", price: "80zł", code: "image_7.png", badge: "Oliwki" },
-            { name: "Peperoni Lambardi w Occie", category: "przyprawy", price: "30zł", code: "image_7.png", badge: "Papryka" },
-            { name: "Pikle z Papryczki Chili", category: "przyprawy", price: "45zł", code: "image_7.png", badge: "Pikle" },
-            { name: "Pikle z Papryczki Jalapeno", category: "przyprawy", price: "30zł", code: "image_7.png", badge: "Pikle" },
-            { name: "Mrożona Sól Przypawcza 1kg", category: "przyprawy", price: "35zł - 40zł", code: "image_7.png", badge: "Przyprawa" },
-            { name: "Czosnek Granulowany 1kg", category: "przyprawy", price: "35zł - 40zł", code: "image_7.png", badge: "Przyprawa" },
-            { name: "Pietruszka 500g", category: "przyprawy", price: "35zł - 40zł", code: "image_7.png", badge: "Zioła" },
-            { name: "Suszona Mięta", category: "przyprawy", price: "35zł - 40zł", code: "image_7.png", badge: "Zioła" },
-            { name: "Curry 1kg", category: "przyprawy", price: "35zł - 40zł", code: "image_7.png", badge: "Przyprawa" },
-            { name: "Czarny Pieprz 1kg", category: "przyprawy", price: "35zł - 40zł", code: "image_7.png", badge: "Przyprawa" },
-            { name: "Koperek 1kg", category: "przyprawy", price: "35zł - 40zł", code: "image_7.png", badge: "Zioła" },
-            { name: "Zmiażdżone Chili 1kg", category: "przyprawy", price: "35zł - 40zł", code: "image_7.png", badge: "Przyprawa" },
-            { name: "Cebula Smażona 500g", category: "przyprawy", price: "25zł", code: "image_7.png", badge: "Dodatek" },
-            { name: "Słodka Papryka 1kg", category: "przyprawy", price: "35zł - 40zł", code: "image_7.png", badge: "Przyprawa" },
-            { name: "Berlin Lahmacun", category: "przyprawy", price: "30zł", code: "image_7.png", badge: "Ciasto" },
-            { name: "Tortilla Turka 30cm", category: "przyprawy", price: "80zł", code: "image_7.png", badge: "Tortilla" },
-            { name: "Tortilla Dijo 30cm", category: "przyprawy", price: "80zł", code: "image_7.png", badge: "Tortilla" },
-            { name: "BerlinChleb", category: "przyprawy", price: "95zł", code: "image_7.png", badge: "Pieczywo" }
+            { id: 47, name: "Ogórek Kiszony", category: "przyprawy", price: "45zł", badge: "Konserwa", image: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400&auto=format&fit=crop&q=80" },
+            { id: 48, name: "Mikado Oliwki", category: "przyprawy", price: "80zł", badge: "Oliwki", image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400&auto=format&fit=crop&q=80" },
+            { id: 49, name: "Oualili Czarne Bez Pestek", category: "przyprawy", price: "80zł", badge: "Oliwki", image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400&auto=format&fit=crop&q=80" },
+            { id: 50, name: "Peperoni Lambardi w Occie", category: "przyprawy", price: "30zł", badge: "Papryka", image: "https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=400&auto=format&fit=crop&q=80" },
+            { id: 51, name: "Pikle z Papryczki Chili", category: "przyprawy", price: "45zł", badge: "Pikle", image: "https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=400&auto=format&fit=crop&q=80" },
+            { id: 52, name: "Pikle z Papryczki Jalapeno", category: "przyprawy", price: "30zł", badge: "Pikle", image: "https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=400&auto=format&fit=crop&q=80" },
+            { id: 53, name: "Mrożona Sól Przypawcza 1kg", category: "przyprawy", price: "38zł", badge: "Przyprawa", image: "https://images.unsplash.com/photo-1532336414038-cf19250c5756?w=400&auto=format&fit=crop&q=80" },
+            { id: 54, name: "Czosnek Granulowany 1kg", category: "przyprawy", price: "38zł", badge: "Przyprawa", image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&auto=format&fit=crop&q=80" },
+            { id: 55, name: "Pietruszka 500g", category: "przyprawy", price: "38zł", badge: "Zioła", image: "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=400&auto=format&fit=crop&q=80" },
+            { id: 56, name: "Suszona Mięta", category: "przyprawy", price: "38zł", badge: "Zioła", image: "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=400&auto=format&fit=crop&q=80" },
+            { id: 57, name: "Curry 1kg", category: "przyprawy", price: "38zł", badge: "Przyprawa", image: "https://images.unsplash.com/photo-1532336414038-cf19250c5756?w=400&auto=format&fit=crop&q=80" },
+            { id: 58, name: "Czarny Pieprz 1kg", category: "przyprawy", price: "38zł", badge: "Przyprawa", image: "https://images.unsplash.com/photo-1532336414038-cf19250c5756?w=400&auto=format&fit=crop&q=80" },
+            { id: 59, name: "Koperek 1kg", category: "przyprawy", price: "38zł", badge: "Zioła", image: "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=400&auto=format&fit=crop&q=80" },
+            { id: 60, name: "Zmiażdżone Chili 1kg", category: "przyprawy", price: "38zł", badge: "Przyprawa", image: "https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=400&auto=format&fit=crop&q=80" },
+            { id: 61, name: "Cebula Smażona 500g", category: "przyprawy", price: "25zł", badge: "Dodatek", image: "https://images.unsplash.com/photo-1618377313886-2a7e78d91c78?w=400&auto=format&fit=crop&q=80" },
+            { id: 62, name: "Słodka Papryka 1kg", category: "przyprawy", price: "38zł", badge: "Przyprawa", image: "https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=400&auto=format&fit=crop&q=80" },
+            { id: 63, name: "Berlin Lahmacun", category: "przyprawy", price: "30zł", badge: "Ciasto", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&auto=format&fit=crop&q=80" },
+            { id: 64, name: "Tortilla Turka 30cm", category: "przyprawy", price: "80zł", badge: "Tortilla", image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&auto=format&fit=crop&q=80" },
+            { id: 65, name: "Tortilla Dijo 30cm", category: "przyprawy", price: "80zł", badge: "Tortilla", image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&auto=format&fit=crop&q=80" },
+            { id: 66, name: "Berlin Chleb", category: "przyprawy", price: "95zł", badge: "Pieczywo", image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&auto=format&fit=crop&q=80" }
         ];
 
+        let cart = [];
         let currentCategory = 'all';
         let searchQuery = '';
 
@@ -249,6 +216,10 @@
         const searchInput = document.getElementById('searchInput');
         const categoryButtons = document.querySelectorAll('.cat-btn');
         const noResults = document.getElementById('noResults');
+        const cartDrawer = document.getElementById('cartDrawer');
+        const cartBadge = document.getElementById('cartBadge');
+        const cartItemsList = document.getElementById('cartItemsList');
+        const cartTotalCount = document.getElementById('cartTotalCount');
 
         function renderProducts() {
             productGrid.innerHTML = '';
@@ -268,30 +239,125 @@
 
             filtered.forEach(p => {
                 const card = document.createElement('div');
-                card.className = 'product-card bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between';
+                card.className = 'product-card bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm flex flex-col justify-between';
                 card.innerHTML = `
                     <div>
-                        <div class="flex justify-between items-start mb-3">
-                            <span class="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-lg">${p.badge}</span>
-                            <span class="text-xs text-slate-400 font-mono">${p.code}</span>
+                        <div class="relative h-40 overflow-hidden bg-slate-100">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-slate-800 text-xs font-semibold px-2.5 py-1 rounded-lg shadow-sm">${p.badge}</span>
                         </div>
-                        <h3 class="font-semibold text-slate-800 text-base mb-2 leading-snug">${p.name}</h3>
+                        <div class="p-5">
+                            <h3 class="font-semibold text-slate-800 text-base mb-2 leading-snug">${p.name}</h3>
+                        </div>
                     </div>
-                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between mt-2">
+                    <div class="px-5 pb-5 pt-0 flex items-center justify-between">
                         <div>
                             <span class="text-xs text-slate-400 block">Cena</span>
                             <span class="text-lg font-bold text-slate-900">${p.price}</span>
                         </div>
-                        <a href="https://wa.me/48666041259?text=Dzień%20dobry,%20interesuje%20mnie%20produkt:%20${encodeURIComponent(p.name)}" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-emerald-600 text-white p-2.5 rounded-xl transition text-sm flex items-center justify-center shadow-sm">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </a>
+                        <button onclick="addToCart(${p.id})" class="bg-slate-900 hover:bg-emerald-600 text-white px-3 py-2.5 rounded-xl transition text-sm flex items-center space-x-1.5 shadow-sm font-medium">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            <span>Dodaj</span>
+                        </button>
                     </div>
                 `;
                 productGrid.appendChild(card);
             });
         }
 
-        // Event Listeners for search & filtering
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            
+            // Subtle animation feedback
+            const cartBtnBadge = document.getElementById('cartBadge');
+            cartBtnBadge.classList.add('scale-125');
+            setTimeout(() => cartBtnBadge.classList.remove('scale-125'), 200);
+        }
+
+        function changeQuantity(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== id);
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalItems > 0) {
+                cartBadge.textContent = totalItems;
+                cartBadge.classList.remove('hidden');
+            } else {
+                cartBadge.classList.add('hidden');
+            }
+
+            cartTotalCount.textContent = totalItems + ' szt.';
+
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = `
+                    <div class="text-center py-12 text-slate-400">
+                        <i class="fa-solid fa-cart-shopping text-4xl mb-3"></i>
+                        <p class="text-sm">Twój koszyk jest pusty</p>
+                    </div>
+                `;
+                return;
+            }
+
+            cartItemsList.innerHTML = '';
+            cart.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'py-4 flex items-center justify-between gap-3';
+                row.innerHTML = `
+                    <div class="flex items-center space-x-3 overflow-hidden">
+                        <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded-lg flex-shrink-0 bg-slate-100">
+                        <div class="overflow-hidden">
+                            <h4 class="text-sm font-semibold text-slate-800 truncate">${item.name}</h4>
+                            <span class="text-xs text-slate-500">${item.price}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 flex-shrink-0">
+                        <button onclick="changeQuantity(${item.id}, -1)" class="w-7 h-7 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg flex items-center justify-center transition text-xs font-bold">-</button>
+                        <span class="text-sm font-semibold w-6 text-center">${item.quantity}</span>
+                        <button onclick="changeQuantity(${item.id}, 1)" class="w-7 h-7 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg flex items-center justify-center transition text-xs font-bold">+</button>
+                    </div>
+                `;
+                cartItemsList.appendChild(row);
+            });
+        }
+
+        function toggleCart() {
+            cartDrawer.classList.toggle('hidden');
+        }
+
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                alert('Twój koszyk jest pusty!');
+                return;
+            }
+
+            let message = "Dzień dobry, chciałbym złożyć zamówienie na następujące produkty:\n\n";
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name} - ${item.quantity} szt. (${item.price})\n`;
+            });
+            message += "\nProszę o potwierdzenie dostępności i kosztów dostawy.";
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/48666041259?text=${encodedMessage}`, '_blank');
+        }
+
         searchInput.addEventListener('input', (e) => {
             searchQuery = e.target.value;
             renderProducts();
@@ -311,7 +377,6 @@
             });
         });
 
-        // Initial render on load
         window.onload = () => {
             renderProducts();
         };
