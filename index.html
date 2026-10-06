@@ -292,8 +292,8 @@
         }
 
         function updateCartUI() {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            
+            const totalPrice = cart.reduce((sum, item) => sum + (parseInt(item.price) * item.quantity), 0);
+            const totalItems = cart.reduce((sum, item) => sum +item.quantity, 0) ;f
             if (totalItems > 0) {
                 cartBadge.textContent = totalItems;
                 cartBadge.classList.remove('hidden');
@@ -302,7 +302,7 @@
             }
 
             cartTotalCount.textContent = totalItems + ' szt.';
-
+cartTotal.textContent = totalPrice + ' zł';
             if (cart.length === 0) {
                 cartItemsList.innerHTML = `
                     <div class="text-center py-12 text-slate-400">
@@ -322,7 +322,7 @@
                         <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded-lg flex-shrink-0 bg-slate-100">
                         <div class="overflow-hidden">
                             <h4 class="text-sm font-semibold text-slate-800 truncate min-w-0">${item.name}</h4>
-                            <span class="text-xs text-slate-500">${item.price}</span>
+                            <span class="text-xs text-slate-500">$parseInt{item.price}*item.quantity) zl</span>
                         </div>
                     </div>
                     <div class="flex items-center space-x-2 flex-shrink-0">
