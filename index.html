@@ -338,7 +338,7 @@ return;
                         <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded-lg flex-shrink-0 bg-slate-100">
                         <div class="overflow-hidden">
                             <h4 class="text-sm font-semibold text-slate-800 truncate min-w-0">${item.name}</h4>
-                            <span class="text-xs text-slate-500">$parseInt{item.price}*item.quantity) zl</span>
+                            <span class="text-xs text-slate-500">${parseInt(item.price)*item.quantity} zl</span>
                         </div>
                     </div>
                     <div class="flex items-center space-x-2 flex-shrink-0">
