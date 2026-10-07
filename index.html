@@ -291,28 +291,44 @@
             updateCartUI();
         }
 
-        function updateCartUI() {
-            const totalPrice = cart.reduce((sum, item) => sum + (parseInt(item.price) * item.quantity), 0);
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            if (totalItems > 0) {
-                cartBadge.textContent = totalItems;
-                cartBadge.classList.remove('hidden');
-            } else {
-                cartBadge.classList.add('hidden');
-            }
+        function updateCartUI() { const cartBadge = document.getElementById('cartBadge'); const cartTotalCount = document.getElementById('cartTotalCount'); const cartTotal = document.getElementById('cartTotal'); const cartItemsList = document.getElementById('cartItemsList');
+JavaScript
 
-            cartTotalCount.textContent = totalItems + ' szt.';
-            const cartTotal = document.getElementById('cartTotal');
-            cartTotal.textContent = totalPrice + ' zł';
-            if (cart.length === 0) {
-                cartItemsList.innerHTML = `
-                    <div class="text-center py-12 text-slate-400">
-                        <i class="fa-solid fa-cart-shopping text-4xl mb-3"></i>
-                        <p class="text-sm">Twój koszyk jest pusty</p>
-                    </div>
-                `;
-                return;
-            }
+const totalPrice = cart.reduce((sum, item) => sum + (parseInt(item.price) * item.quantity), 0);
+const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+if (cartBadge) {
+    if (totalItems > 0) {
+        cartBadge.textContent = totalItems;
+        cartBadge.classList.remove('hidden');
+    } else {
+        cartBadge.classList.add('hidden');
+    }
+}
+
+if (cartTotalCount) {
+    cartTotalCount.textContent = totalItems + ' szt.';
+}
+
+if (cartTotal) {
+    cartTotal.textContent = totalPrice + ' zł';
+}
+
+if (cart.length === 0) {
+    if (cartItemsList) {
+        cartItemsList.innerHTML = `
+            <div class="text-center py-12 text-slate-400">
+                <i class="fa-solid fa-cart-shopping text-4xl mb-3"></i>
+                <p class="text-sm">Twój koszyk jest pusty</p>
+            </div>
+        `;
+    }
+return;
+}
+
+
+
+
 
             cartItemsList.innerHTML = '';
             cart.forEach(item => {
