@@ -292,7 +292,6 @@
         }
 
         function updateCartUI() { const cartBadge = document.getElementById('cartBadge'); const cartTotalCount = document.getElementById('cartTotalCount'); const cartTotal = document.getElementById('cartTotal'); const cartItemsList = document.getElementById('cartItemsList');
-JavaScript
 
 const totalPrice = cart.reduce((sum, item) => sum + (parseInt(item.price) * item.quantity), 0);
 const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
